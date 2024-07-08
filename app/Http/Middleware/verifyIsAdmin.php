@@ -19,6 +19,6 @@ class verifyIsAdmin
         if(Auth::user() && Auth::user()->is_admin){
             return $next($request);
         }
-            abort(403,'you not allowed to access to this page');
+           return redirect('app/login');
     }
 }

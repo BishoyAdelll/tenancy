@@ -17,7 +17,8 @@ class TeamResource extends Resource
 {
     protected static ?string $model = Team::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationGroup='Roles and Permissions';
 
     public static function form(Form $form): Form
     {
@@ -39,6 +40,10 @@ class TeamResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('members.name')
+                    ->badge()
+                    ->color('primary')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -66,7 +71,7 @@ class TeamResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\UserRelationManager::class
         ];
     }
 

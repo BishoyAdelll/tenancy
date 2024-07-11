@@ -18,7 +18,8 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-identification';
+    protected static ?string $navigationGroup='Roles and Permissions';
 
     public static function form(Form $form): Form
     {
@@ -31,11 +32,20 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                // Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->hiddenOn('edit')
+                    ->visibleOn('create')
+                    ->confirmed(),
+                Forms\Components\TextInput::make('password_confirmation')
+                    ->password()
+                    ->required()
+                    ->maxLength(255)
+                    ->hiddenOn('edit')
+                    ->visibleOn('create'),
                 Forms\Components\Toggle::make('is_admin')
                     ->required(),
                 Select::make('roles')->multiple()->relationship('roles', 'name')
@@ -50,9 +60,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+
                 Tables\Columns\IconColumn::make('is_admin')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')

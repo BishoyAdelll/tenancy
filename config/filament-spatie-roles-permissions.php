@@ -92,7 +92,7 @@ return [
 
         'guard_names' => [
             'web',
-            'api',
+
         ],
 
         'permission_affixes' => [

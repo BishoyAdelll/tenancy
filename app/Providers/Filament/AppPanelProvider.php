@@ -21,6 +21,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -31,7 +32,7 @@ class AppPanelProvider extends PanelProvider
             ->default()
             ->path('app')
             ->login()
-            ->registration()
+//            ->registration()
             ->userMenuItems([
                 MenuItem::make()
                 ->label('Admin')
@@ -51,7 +52,7 @@ class AppPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -64,7 +65,9 @@ class AppPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-
+            ->plugins([
+                FilamentFullCalendarPlugin::make(),
+            ])
             ->tenant(Team::class,ownershipRelationship: 'team',slugAttribute: 'slug')
             ->tenantRegistration(RegisterTeam::class)
             ->tenantProfile(EditTeamProfile::class);
